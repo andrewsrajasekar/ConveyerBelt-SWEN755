@@ -1,30 +1,26 @@
 package heartbeat;
 
-public class HeartbeatSender extends Thread{
+public class HeartbeatSender extends Thread {
 
     @Override
-    public void run(){
+    public void run() {
         int id = 12345;
         ConveyorBelt cb = new ConveyorBelt();
-        HeartbeatReceiver hr = new HeartbeatReceiver();
 
-        while(true){
+        while (true) {
 
-            try{
+            try {
                 Thread.sleep(2000);
 
-            }
-            catch(InterruptedException e){
+            } catch (InterruptedException e) {
 
             }
-            long start = System.nanoTime()/1000000;
-            if(cb.checkStatus()){
-                hr.pitApat(start, id);
-            }
-            else {
+            long start = System.nanoTime() / 1000000;
+            if (cb.checkStatus()) {
+                HeartbeatReceiver.pitAPat(id, start);
+            } else {
                 break;
             }
-
 
         }
 

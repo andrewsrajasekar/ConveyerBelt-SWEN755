@@ -1,15 +1,17 @@
 package heartbeat;
 
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Timer;
 import java.util.TimerTask;
 
 public class HeartbeatReceiver {
-    private static int noOfSenders = 1;
-    private static Long[] lastUpdatedTimeStamps = new Long[noOfSenders];
+    private static HashMap<Integer, Long> sendIndexVsLastUpdatedTimeStamp = new HashMap<>();
     private static Long senderFreq = 2000l;
     private static Long senderCheckFreq = senderFreq + 500l;
 
-    public static void main(String[] args) {
+    // Static initializer block
+    static {
         Timer timer = new Timer();
 
         TimerTask task = new TimerTask() {
@@ -21,23 +23,24 @@ public class HeartbeatReceiver {
         timer.scheduleAtFixedRate(task, 0, senderCheckFreq);
     }
 
-    public boolean pitAPat(int id, Long updatedMilliseconds) {
+    public static boolean pitAPat(int id, Long updatedMilliseconds) {
+        System.out.println(id);
         updateTime(id, updatedMilliseconds);
         return true;
     }
 
-    private void updateTime(int id, Long updatedMilliseconds) {
-        lastUpdatedTimeStamps[id - 1] = updatedMilliseconds;
+    private static void updateTime(int id, Long updatedMilliseconds) {
+        sendIndexVsLastUpdatedTimeStamp.put(id, updatedMilliseconds);
     }
 
     private static boolean checkAlive() {
         Long currentMillisecond = System.currentTimeMillis();
-        System.out.println(currentMillisecond);
-        for (int i = 0; i < noOfSenders; i++) {
-            if (lastUpdatedTimeStamps[i] != null) {
-                if ((currentMillisecond - (senderFreq + 1000l)) > lastUpdatedTimeStamps[i]) {
-                    FaultMonitor.notifyUser((i + 1), lastUpdatedTimeStamps[i]);
-                }
+        Iterator<Integer> sendIndexVsLastUpdatedTimeStampIter = sendIndexVsLastUpdatedTimeStamp.keySet().iterator();
+        while (sendIndexVsLastUpdatedTimeStampIter.hasNext()) {
+            Integer id = sendIndexVsLastUpdatedTimeStampIter.next();
+            Long lastUpdatedTimeStamp = sendIndexVsLastUpdatedTimeStamp.get(id);
+            if ((currentMillisecond - (senderFreq + 1000l)) > lastUpdatedTimeStamp) {
+                FaultMonitor.notifyUser(id, lastUpdatedTimeStamp);
             }
         }
         return true;
