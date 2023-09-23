@@ -2,10 +2,12 @@ package heartbeat;
 
 public class HeartbeatSender extends Thread {
 
+    int id = 12345;
+    ConveyorBelt cb = new ConveyorBelt();
+    HeartbeatReceiver hr = new HeartbeatReceiver();
+
     @Override
     public void run() {
-        int id = 12345;
-        ConveyorBelt cb = new ConveyorBelt();
 
         while (true) {
 
