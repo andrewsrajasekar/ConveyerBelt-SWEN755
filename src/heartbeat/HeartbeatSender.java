@@ -2,11 +2,12 @@ package heartbeat;
 
 public class HeartbeatSender extends Thread{
 
+    int id = 12345;
+    ConveyorBelt cb = new ConveyorBelt();
+    HeartbeatReceiver hr = new HeartbeatReceiver();
     @Override
     public void run(){
-        int id = 12345;
-        ConveyorBelt cb = new ConveyorBelt();
-        HeartbeatReceiver hr = new HeartbeatReceiver();
+
 
         while(true){
 
@@ -19,7 +20,7 @@ public class HeartbeatSender extends Thread{
             }
             long start = System.nanoTime()/1000000;
             if(cb.checkStatus()){
-                hr.pitApat(start, id);
+                hr.pitAPat(id, start);
             }
             else {
                 break;
