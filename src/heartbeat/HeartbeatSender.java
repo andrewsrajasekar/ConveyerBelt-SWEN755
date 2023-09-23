@@ -1,12 +1,10 @@
 package heartbeat;
 
-<<<<<<< HEAD
+
 import java.util.Random;
 
 public class HeartbeatSender extends Thread{
-=======
-public class HeartbeatSender extends Thread {
->>>>>>> 0fe171ea2b02d946ccb0fa3882cca7f7148289dd
+
 
     Random random = new Random();
     int id = random.nextInt(100);;
