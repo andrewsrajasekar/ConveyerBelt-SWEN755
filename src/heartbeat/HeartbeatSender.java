@@ -33,4 +33,13 @@ public class HeartbeatSender extends Thread{
 
     }
 
+
+    public static void main(String[] args) {
+        HeartbeatSender hs = new HeartbeatSender();
+
+        hs.start();
+
+    }
+
+
 }
