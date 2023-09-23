@@ -1,4 +1,5 @@
 package heartbeat;
+
 import java.util.Random;
 
 public class ConveyorBelt {
@@ -6,12 +7,18 @@ public class ConveyorBelt {
     private final int threshold;
     private final int deviation;
     private boolean status;
+    private final Random random = new Random();
 
     public ConveyorBelt(int id, int threshold, int deviation) {
         this.id = id;
         this.threshold = threshold;
         this.deviation = deviation;
         this.status = true;
+    }
+
+    public static void main(String[] args) {
+        ConveyorBelt belt = new ConveyorBelt(1, 10, 3);
+        belt.run();
     }
 
     public int getId() {
@@ -40,14 +47,9 @@ public class ConveyorBelt {
         return "ConveyorBelt:" + id;
     }
 
-    private int getProductCount(boolean error){
+    private int getProductCount(boolean error) {
         Random rand = new Random();
-        int multiplier;
-        if(error){
-            multiplier = 2;
-        } else {
-            multiplier = 1;
-        }
+        int multiplier = error ? 2 : 1;
         int max = threshold + deviation * multiplier;
         int min = threshold - deviation * multiplier;
         int count = rand.nextInt(max - min) + min;
@@ -59,33 +61,29 @@ public class ConveyorBelt {
         return count;
     }
 
-    public void run(){
-        System.out.println("Starting operation of "+this);
-        while(true){
-            Random random = new Random();
-            int r = random.nextInt(10);
-            if(r<8){
-                System.out.println("Received products:"+getProductCount(false));
-            } else {
-
-                System.out.println("Received products:"+getProductCount(true));
-                System.out.println("ERROR");
-                if(random.nextBoolean()){
-                    System.out.println("STATUS FIXED");
-                } else {
-                    System.out.println("System could not be fixed");
-                    setStatus(false);
-                    break;
-                }
-            }
-
+    private void handleErrors() {
+        System.out.println("ERROR");
+        if (random.nextBoolean()) {
+            System.out.println("SYSTEM FIXED");
+        } else {
+            System.out.println("SYSTEM NOT FIXED");
+            System.out.println(this+" TERMINATED");
+            setStatus(false);
         }
     }
 
-
-
-    public static void main(String[] args) {
-        ConveyorBelt belt = new ConveyorBelt(1, 10, 3);
-        belt.run();
+    public void run() {
+        System.out.println("Starting operation of " + this);
+        while (status) {
+            int r = random.nextInt(10);
+            if (r < 8) {
+                System.out.println("Received products: " + getProductCount(false));
+            } else {
+                System.out.println("Received products: " + getProductCount(true));
+                handleErrors();
+                if (!status) break;
+            }
+        }
     }
+
 }
