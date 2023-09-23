@@ -2,17 +2,14 @@ package heartbeat;
 
 import java.util.Random;
 
-public class HeartbeatSender extends Thread{
-
+public class HeartbeatSender extends Thread {
 
     Random random = new Random();
     int id = random.nextInt(100);
-    ConveyorBelt cb = new ConveyorBelt(1,10,3);
-    HeartbeatReceiver hr = new HeartbeatReceiver();
+    ConveyorBelt cb = new ConveyorBelt(1, 10, 3);
 
     @Override
     public void run() {
-
         while (true) {
 
             try {
@@ -32,13 +29,11 @@ public class HeartbeatSender extends Thread{
 
     }
 
-
     public static void main(String[] args) {
         HeartbeatSender hs = new HeartbeatSender();
 
         hs.start();
 
     }
-
 
 }

@@ -30,6 +30,7 @@ public class HeartbeatReceiver {
 
     private static void updateTime(int id, Long updatedMilliseconds) {
         senderIdVsLastUpdatedTimeStamp.put(id, updatedMilliseconds);
+        FaultMonitor.notifyUserSuccess(id, updatedMilliseconds);
     }
 
     private static boolean checkAlive() {
@@ -38,8 +39,12 @@ public class HeartbeatReceiver {
         while (sendIndexVsLastUpdatedTimeStampIter.hasNext()) {
             Integer id = sendIndexVsLastUpdatedTimeStampIter.next();
             Long lastUpdatedTimeStamp = senderIdVsLastUpdatedTimeStamp.get(id);
+            if (lastUpdatedTimeStamp == -1) {
+                continue;
+            }
             if ((currentMillisecond - (senderFreq + 1000l)) > lastUpdatedTimeStamp) {
                 FaultMonitor.notifyUser(id, lastUpdatedTimeStamp);
+                senderIdVsLastUpdatedTimeStamp.put(id, -1l);
             }
         }
         return true;
