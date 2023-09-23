@@ -22,7 +22,7 @@ public class ConveyorBelt {
         return threshold;
     }
 
-    public boolean getStatus() {
+    public boolean checkStatus() {
         return status;
     }
 
@@ -85,7 +85,7 @@ public class ConveyorBelt {
 
 
     public static void main(String[] args) {
-        ConveyorBelt belt = new ConveyorBelt(1, 10,3);
+        ConveyorBelt belt = new ConveyorBelt(1, 10, 3);
         belt.run();
     }
 }
