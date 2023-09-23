@@ -24,7 +24,6 @@ public class HeartbeatReceiver {
     }
 
     public static boolean pitAPat(int id, Long updatedMilliseconds) {
-        System.out.println(id);
         updateTime(id, updatedMilliseconds);
         return true;
     }

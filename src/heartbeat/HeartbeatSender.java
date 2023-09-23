@@ -1,8 +1,12 @@
 package heartbeat;
 
-public class HeartbeatSender extends Thread {
+import java.util.Random;
 
-    int id = 12345;
+public class HeartbeatSender extends Thread{
+
+
+    Random random = new Random();
+    int id = random.nextInt(100);
     ConveyorBelt cb = new ConveyorBelt(1,10,3);
     HeartbeatReceiver hr = new HeartbeatReceiver();
 
