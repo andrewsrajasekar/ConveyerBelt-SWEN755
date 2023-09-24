@@ -6,9 +6,9 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 public class HeartbeatReceiver {
-    private static HashMap<Integer, Long> senderIdVsLastUpdatedTimeStamp = new HashMap<>();
-    private static Long senderFreq = 2000l;
-    private static Long senderCheckFreq = senderFreq + 500l;
+    private static final HashMap<Integer, Long> senderIdVsLastUpdatedTimeStamp = new HashMap<>();
+    private static final Long senderFreq = 2000L;
+    private static final Long senderCheckFreq = senderFreq + 500L;
 
     // Static initializer block
     static {
@@ -42,9 +42,9 @@ public class HeartbeatReceiver {
             if (lastUpdatedTimeStamp == -1) {
                 continue;
             }
-            if ((currentMillisecond - (senderFreq + 1000l)) > lastUpdatedTimeStamp) {
+            if ((currentMillisecond - (senderFreq + 1000L)) > lastUpdatedTimeStamp) {
                 FaultMonitor.notifyUser(id, lastUpdatedTimeStamp);
-                senderIdVsLastUpdatedTimeStamp.put(id, -1l);
+                senderIdVsLastUpdatedTimeStamp.put(id, -1L);
             }
         }
         return true;

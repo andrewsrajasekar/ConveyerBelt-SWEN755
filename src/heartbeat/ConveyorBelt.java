@@ -2,12 +2,12 @@ package heartbeat;
 
 import java.util.Random;
 
-public class ConveyorBelt {
+public class ConveyorBelt extends Thread {
     private final int id;
     private final int threshold;
     private final int deviation;
-    private boolean status;
     private final Random random = new Random();
+    private boolean status;
 
     public ConveyorBelt(int id, int threshold, int deviation) {
         this.id = id;
@@ -18,10 +18,11 @@ public class ConveyorBelt {
 
     public static void main(String[] args) {
         ConveyorBelt belt = new ConveyorBelt(1, 10, 3);
-        belt.run();
+        belt.start();
     }
 
-    public int getId() {
+    @Override
+    public long getId() {
         return id;
     }
 
@@ -33,13 +34,13 @@ public class ConveyorBelt {
         return status;
     }
 
-    public void setStatus(boolean status) {
+    private void setStatus(boolean status) {
         this.status = status;
     }
 
     @Override
     public int hashCode() {
-        return getId();
+        return (int) getId();
     }
 
     @Override
@@ -48,11 +49,10 @@ public class ConveyorBelt {
     }
 
     private int getProductCount(boolean error) {
-        Random rand = new Random();
         int multiplier = error ? 2 : 1;
         int max = threshold + deviation * multiplier;
         int min = threshold - deviation * multiplier;
-        int count = rand.nextInt(max - min) + min;
+        int count = random.nextInt(max - min) + min;
         try {
             Thread.sleep(1000);
         } catch (InterruptedException e) {
@@ -62,24 +62,41 @@ public class ConveyorBelt {
     }
 
     private void handleErrors() {
-        System.out.println("ERROR");
-        if (random.nextBoolean()) {
-            System.out.println("SYSTEM FIXED");
+        setStatus(false);
+        log("ERROR", "THRESHOLD VIOLATED");
+        log("ERROR", "Attempting to self-repair");
+        if (fixConveyorBelt()) {
+            setStatus(true);
+            log("SUCCESS", "Self-Repair successful. Resuming normal operations");
         } else {
-            System.out.println("SYSTEM NOT FIXED");
-            System.out.println(this+" TERMINATED");
+            log("FAILURE", "Self-Repair failed.");
+            log("FAILURE", "Terminating for safety.");
             setStatus(false);
         }
     }
 
+    public boolean fixConveyorBelt() {
+        return (random.nextBoolean() || random.nextBoolean());
+    }
+
+    public void log(String level, String message) {
+        String s = String.format("[%s][%s] %s", this, level, message);
+        System.out.println(s);
+    }
+
+    public void log(String message) {
+        log("INFO", message);
+    }
+
+    @Override
     public void run() {
-        System.out.println("Starting operation of " + this);
+        log("STARTING OPERATION");
         while (status) {
-            int r = random.nextInt(10);
-            if (r < 8) {
-                System.out.println("Received products: " + getProductCount(false));
+            boolean normalOperation = random.nextInt(10) < 8;
+            if (normalOperation) {
+                log("Received products: " + getProductCount(false));
             } else {
-                System.out.println("Received products: " + getProductCount(true));
+                log("Received products: " + getProductCount(true));
                 handleErrors();
                 if (!status) break;
             }
