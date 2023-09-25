@@ -11,9 +11,9 @@ Each conveyor belt is designed to handle a specific rate of products per minute 
 If the rate is greater or lesser than the specific rate (due to change in belt speed, or change in number of products on the belt, etc), the conveyor belt will stop working and stop sending heartbeat signals to the receiver.  This "crash" is a safeguard to prevent physical damage or further malfunctions.
 
 ### Team members
-Andrews Rajasekar
-Sam Singh Anantha
-Vidit Naithani
+- Andrews Rajasekar
+- Sam Singh Anantha
+- Vidit Naithani
 
 ### Instructions
 1. Clone the github repository
