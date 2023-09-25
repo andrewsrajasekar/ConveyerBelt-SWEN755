@@ -21,8 +21,7 @@ public class ConveyorBelt extends Thread {
         belt.start();
     }
 
-    @Override
-    public long getId() {
+    public int getBeltId() {
         return id;
     }
 
@@ -71,7 +70,7 @@ public class ConveyorBelt extends Thread {
     }
 
     public boolean fixConveyorBelt() {
-        return (random.nextBoolean() || random.nextBoolean());
+        return random.nextInt(100) < 80;
     }
 
     private void log(String level, String message) {

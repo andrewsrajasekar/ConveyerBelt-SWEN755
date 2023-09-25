@@ -1,125 +1,64 @@
 package heartbeat;
 
 import java.io.IOException;
-import java.io.OutputStream;
-import java.io.PrintWriter;
-import java.net.Socket;
-import java.util.HashMap;
-import java.util.Iterator;
 import java.util.Random;
 
 public class HeartbeatSender extends Thread {
-    int id;
-    ConveyorBelt cb = new ConveyorBelt(1, 10, 3);
-    private static Socket clientSocket;
-    private static OutputStream outputStream;
-    private static PrintWriter writer;
-    private static HashMap<Integer, Boolean> threadsRunning = new HashMap<>();
+    private final int id;
+    private final ConveyorBelt belt;
+    private final HeartbeatConnection connection;
 
-    public HeartbeatSender(int id, ConveyorBelt cb) {
+
+    public HeartbeatSender(int id, ConveyorBelt belt, HeartbeatConnection connection) {
         this.id = id;
-        this.cb = cb;
+        this.belt = belt;
+        this.connection = connection;
     }
 
-    public HeartbeatSender(ConveyorBelt cb) {
-        this(new Random().nextInt(), cb);
-    }
 
     public static void main(String[] args) throws InterruptedException, IOException {
+        HeartbeatConnection connection = new HeartbeatConnection();
         ConveyorBelt belt = new ConveyorBelt(1, 10, 2);
-
+        ConveyorBelt belt2 = new ConveyorBelt(2, 10, 2);
+        HeartbeatSender sender = new HeartbeatSender(1,belt,connection);
+        HeartbeatSender sender2 = new HeartbeatSender(2,belt2,connection);
         belt.start();
-        startOrRunThread(belt, 1, true);
+        belt2.start();
+        sender.start();
+        sender2.start();
+
         belt.join();
-        startOrRunThread(belt, 2, false);
+        belt2.join();
+        sender.join();
+        sender2.join();
+        connection.close();
+
     }
 
     @Override
     public void run() {
-        log("Monitoring Status for " + cb);
-        Boolean isRunning = true;
-        while (isRunning) {
-
+        log("Monitoring Status for " + belt);
+        while (true) {
             try {
-                Thread.sleep(2000);
-
+                long heartbeatInterval = 2000;
+                Thread.sleep(heartbeatInterval);
+                if (belt.checkStatus()) {
+                    connection.sendHeartbeat(belt.getBeltId());
+                    log("Heartbeat Sent");
+                } else {
+                    log("Belt Heartbeat not detected");
+                    Thread.currentThread().interrupt();
+                    break;
+                }
             } catch (InterruptedException e) {
-
-            }
-            if (cb.checkStatus()) {
-                sendData(id, System.currentTimeMillis());
-                log("Heartbeat Sent");
-            } else {
-                log("Belt Heartbeat not detected");
-                isRunning = false;
-                threadsRunning.put(id, false);
-                checkAndCloseConnection();
+                // Log the exception and/or re-interrupt the thread
+                Thread.currentThread().interrupt();
+                break;
             }
         }
-
     }
 
-    private static void startOrRunThread(ConveyorBelt belt, int id, Boolean isStart)
-            throws InterruptedException, IOException {
-        HeartbeatSender hs = new HeartbeatSender(id, belt);
-        if (isStart) {
-            hs.start();
-            initializeConnection();
-        } else {
-            hs.join();
-        }
-        threadsRunning.put(id, true);
-    }
 
-    private static void initializeConnection() throws IOException {
-        try {
-            clientSocket = new Socket("localhost", 8888);
-            outputStream = clientSocket.getOutputStream();
-
-            writer = new PrintWriter(outputStream, true);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-    }
-
-    private static void checkAndCloseConnection() {
-        try {
-            if (threadsRunning.isEmpty()) {
-                closeConnection();
-            } else {
-                Iterator<Integer> threadsRunningIter = threadsRunning.keySet().iterator();
-                Boolean isNotRunning = true;
-                while (threadsRunningIter.hasNext()) {
-                    Integer id = threadsRunningIter.next();
-                    if (threadsRunning.get(id)) {
-                        isNotRunning = false;
-                        break;
-                    }
-                }
-                if (isNotRunning) {
-                    closeConnection();
-                }
-            }
-        } catch (Exception ex) {
-            System.out.println("Exception ::: " + ex.getMessage());
-        }
-    }
-
-    private static void closeConnection() throws IOException {
-        clientSocket.close();
-        outputStream.close();
-        writer.close();
-    }
-
-    private static void sendData(int id, Long timeStamp) {
-        HashMap<String, String> data = new HashMap<>();
-        data.put("id", "" + id);
-        data.put("timeStamp", "" + timeStamp);
-        String sendData = data.toString();
-
-        writer.println(sendData);
-    }
 
     public void log(String message) {
         String output = String.format("[HeartbeatSender: %d][INFO][%s] %s", id, new java.util.Date(), message);

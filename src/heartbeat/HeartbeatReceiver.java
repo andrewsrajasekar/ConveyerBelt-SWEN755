@@ -1,8 +1,6 @@
 package heartbeat;
 
-import java.io.BufferedInputStream;
 import java.io.BufferedReader;
-import java.io.DataInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -14,7 +12,7 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 public class HeartbeatReceiver {
-    private static final HashMap<Integer, Long> senderIdVsLastUpdatedTimeStamp = new HashMap<>();
+    private static final HashMap<Integer, Long> heartbeatMap = new HashMap<>();
     private static final Long senderFreq = 2000L;
     private static final Long senderCheckFreq = senderFreq + 2000L;
     private static ServerSocket serverSocket;
@@ -22,7 +20,7 @@ public class HeartbeatReceiver {
     private static InputStream inputStream;
     private static BufferedReader reader;
 
-    public static void main(String[] args) {
+    public static void main(String[] args){
         Timer timer = new Timer();
 
         TimerTask task = new TimerTask() {
@@ -32,7 +30,15 @@ public class HeartbeatReceiver {
             }
         };
         timer.scheduleAtFixedRate(task, 0, senderCheckFreq);
-        initializeConnection();
+        try{
+            initialize();
+            receiveHeartbeat();
+        } catch (IOException exception){
+            System.out.println(exception);
+        } finally {
+            closeConnection();
+        }
+
     }
 
     public static boolean pitAPat(int id, Long updatedMilliseconds) {
@@ -41,69 +47,55 @@ public class HeartbeatReceiver {
     }
 
     private static void updateTime(int id, Long updatedMilliseconds) {
-        senderIdVsLastUpdatedTimeStamp.put(id, updatedMilliseconds);
+        heartbeatMap.put(id, updatedMilliseconds);
         FaultMonitor.notifyUserSuccess(id, updatedMilliseconds);
     }
 
     private static boolean checkAlive() {
         Long currentMillisecond = System.currentTimeMillis();
-        Iterator<Integer> sendIndexVsLastUpdatedTimeStampIter = senderIdVsLastUpdatedTimeStamp.keySet().iterator();
+        Iterator<Integer> sendIndexVsLastUpdatedTimeStampIter = heartbeatMap.keySet().iterator();
         while (sendIndexVsLastUpdatedTimeStampIter.hasNext()) {
             Integer id = sendIndexVsLastUpdatedTimeStampIter.next();
-            Long lastUpdatedTimeStamp = senderIdVsLastUpdatedTimeStamp.get(id);
+            Long lastUpdatedTimeStamp = heartbeatMap.get(id);
             if (lastUpdatedTimeStamp == -1) {
                 continue;
             }
             if ((currentMillisecond - (senderFreq + 1000L)) > lastUpdatedTimeStamp) {
                 FaultMonitor.notifyUser(id, lastUpdatedTimeStamp, currentMillisecond);
-                senderIdVsLastUpdatedTimeStamp.put(id, -1L);
+                heartbeatMap.put(id, -1L);
             }
         }
         return true;
     }
 
-    private static void initializeConnection() {
-        try {
-            serverSocket = new ServerSocket(8888);
-            clientSocket = serverSocket.accept();
-            inputStream = clientSocket.getInputStream();
-            reader = new BufferedReader(new InputStreamReader(inputStream));
+    public static void initialize(int port) throws IOException {
+        serverSocket = new ServerSocket(port);
+    }
 
-            String receivedData = reader.readLine();
-            while (!receivedData.equals("Over")) {
-                try {
-                    receivedData = reader.readLine();
-                    Integer id = -1;
-                    Long timeStamp = -1l;
-                    String[] keyValuePairs = receivedData
-                            .substring(1, receivedData.length() - 1)
-                            .split(",\\s*");
-                    for (String pair : keyValuePairs) {
-                        String[] entry = pair.split("=");
-                        if (entry.length == 2) {
-                            String key = entry[0].trim();
-                            String value = entry[1].trim();
-                            if (key.equalsIgnoreCase("id")) {
-                                id = Integer.valueOf(value);
-                            } else {
-                                timeStamp = Long.valueOf(value);
-                            }
-                        }
+    public static void initialize() throws IOException {
+        serverSocket = new ServerSocket(8888);
+    }
+
+
+
+    private static void receiveHeartbeat() throws IOException {
+        while (true) {
+            try (Socket clientSocket = serverSocket.accept();
+                 BufferedReader reader = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()))) {
+
+                String message;
+                while ((message = reader.readLine()) != null) {
+                    String[] parts = message.split(":", 2);
+                    if (parts.length == 2) {
+                        int id = Integer.parseInt(parts[0]);
+                        long timestamp = Long.parseLong(parts[1]);
+                        pitAPat(id, timestamp);
                     }
-                    if (id > 0) {
-                        pitAPat(id, timeStamp);
-                    }
-                } catch (IOException i) {
-                    // System.out.println(i);
                 }
+            } catch (IOException e) {
+                e.printStackTrace();
             }
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        } finally {
-            closeConnection();
         }
-
     }
 
     private static void closeConnection() {
