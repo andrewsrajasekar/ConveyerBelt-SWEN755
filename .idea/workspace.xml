@@ -5,16 +5,11 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="3419ef6c-cc33-4d53-804d-3f8d08d398c7" name="Changes" comment="change visibility">
-      <change afterPath="$PROJECT_DIR$/src/heartbeat/HeartbeatConnection.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ConveyorBelt/heartbeat/ConveyorBelt.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/ConveyorBelt/heartbeat/ConveyorBelt.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/ConveyorBelt/heartbeat/FaultMonitor.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/ConveyorBelt/heartbeat/FaultMonitor.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ConveyorBelt/heartbeat/HeartbeatReceiver$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/ConveyorBelt/heartbeat/HeartbeatReceiver$1.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/ConveyorBelt/heartbeat/HeartbeatReceiver.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/ConveyorBelt/heartbeat/HeartbeatReceiver.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ConveyorBelt/heartbeat/HeartbeatSender.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/ConveyorBelt/heartbeat/HeartbeatSender.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/heartbeat/ConveyorBelt.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/heartbeat/ConveyorBelt.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/heartbeat/FaultMonitor.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/heartbeat/FaultMonitor.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/heartbeat/HeartbeatReceiver.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/heartbeat/HeartbeatReceiver.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/heartbeat/HeartbeatSender.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/heartbeat/HeartbeatSender.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

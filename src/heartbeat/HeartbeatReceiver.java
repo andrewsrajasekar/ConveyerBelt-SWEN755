@@ -21,6 +21,7 @@ public class HeartbeatReceiver {
     private static BufferedReader reader;
 
     public static void main(String[] args){
+        FaultMonitor.printHeader();
         Timer timer = new Timer();
 
         TimerTask task = new TimerTask() {
@@ -47,8 +48,9 @@ public class HeartbeatReceiver {
     }
 
     private static void updateTime(int id, Long updatedMilliseconds) {
+        Long currentMillisecond = System.currentTimeMillis();
         heartbeatMap.put(id, updatedMilliseconds);
-        FaultMonitor.notifyUserSuccess(id, updatedMilliseconds);
+        FaultMonitor.notifyUserSuccess(id, updatedMilliseconds, currentMillisecond);
     }
 
     private static boolean checkAlive() {

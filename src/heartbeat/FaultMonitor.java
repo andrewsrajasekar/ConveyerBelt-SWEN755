@@ -6,21 +6,22 @@ import java.text.SimpleDateFormat;
 import java.util.TimeZone;
 
 public class FaultMonitor {
-    public static void notifyUser(int id, Long lastUpdatedMilliseconds, long currentMillisecond) {
-        String boldStart = "\033[1m";
-        String boldEnd = "\033[0m";
-        System.out.println("HeartBeat Failed for Conveyer Belt of id " + (boldStart + id + boldEnd)
-                + ", its last updated time was : "
-                + (boldStart + (convertToTime(lastUpdatedMilliseconds)) + boldEnd) + ", " + " Current Time :"
-                + (boldStart + (convertToTime(currentMillisecond)) + boldEnd));
+    public static void printHeader() {
+        System.out.printf("%-15s%-30s%-30s%-15s%n", "Conveyor ID", "Last Updated Time", "Current Time", "Status");
     }
 
-    public static void notifyUserSuccess(int id, Long lastUpdatedMilliseconds) {
-        String boldStart = "\033[1m";
-        String boldEnd = "\033[0m";
-        System.out.println("HeartBeat Running for Conveyer Belt of id " + (boldStart + id + boldEnd)
-                + ", its last updated time was : "
-                + (boldStart + (convertToTime(lastUpdatedMilliseconds)) + boldEnd) + " seconds ago.");
+    public static void notifyUser(int id, Long lastUpdatedMilliseconds, long currentMillisecond) {
+        String status = "FAILED";
+        displayStatus(id, lastUpdatedMilliseconds, currentMillisecond, status);
+    }
+
+    public static void notifyUserSuccess(int id, Long lastUpdatedMilliseconds, long currentMillisecond) {
+        String status = "RUNNING";
+        displayStatus(id, lastUpdatedMilliseconds, currentMillisecond, status);
+    }
+
+    private static void displayStatus(int id, Long lastUpdatedMilliseconds, long currentMillisecond, String status) {
+        System.out.printf("%-15d%-30s%-30s%-15s%n", id, convertToTime(lastUpdatedMilliseconds), convertToTime(currentMillisecond), status);
     }
 
     private static String convertToTime(Long milliseconds) {
@@ -28,5 +29,10 @@ public class FaultMonitor {
         DateFormat formatter = new SimpleDateFormat("HH:mm:ss.SSS");
         formatter.setTimeZone(TimeZone.getTimeZone("EST"));
         return formatter.format(date);
+    }
+
+    public static void main(String[] args) {
+        printHeader();  // Print the table header once
+        // Assuming the notifyUser and notifyUserSuccess methods will be called when the status of a conveyor belt changes
     }
 }
