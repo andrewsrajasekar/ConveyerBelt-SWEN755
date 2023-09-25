@@ -39,13 +39,8 @@ public class ConveyorBelt extends Thread {
     }
 
     @Override
-    public int hashCode() {
-        return (int) getId();
-    }
-
-    @Override
     public String toString() {
-        return "ConveyorBelt:" + id;
+        return "ConveyorBelt:" + id + "("+threshold+")";
     }
 
     private int getProductCount(boolean error) {
@@ -79,12 +74,12 @@ public class ConveyorBelt extends Thread {
         return (random.nextBoolean() || random.nextBoolean());
     }
 
-    public void log(String level, String message) {
+    private void log(String level, String message) {
         String s = String.format("[%s][%s] %s", this, level, message);
         System.out.println(s);
     }
 
-    public void log(String message) {
+    private void log(String message) {
         log("INFO", message);
     }
 
