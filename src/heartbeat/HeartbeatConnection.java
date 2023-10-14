@@ -9,19 +9,18 @@ public class HeartbeatConnection {
     private final PrintWriter writer;
     private final Object lock = new Object();
 
-
     public HeartbeatConnection() throws IOException {
         this.socket = new Socket("localhost", 8888);
         this.writer = new PrintWriter(socket.getOutputStream(), true);
     }
 
-    public void sendHeartbeat(int id) {
+    public void sendHeartbeat(int id, Integer noOfProducts) {
         synchronized (lock) {
             if (socket.isClosed()) {
                 throw new IllegalStateException("Connection is closed");
             }
             long timestamp = System.currentTimeMillis();
-            String heartbeatMessage = String.format("%d:%d", id, timestamp);
+            String heartbeatMessage = String.format("%d:%d:%d", id, timestamp, noOfProducts);
             writer.println(heartbeatMessage);
         }
     }

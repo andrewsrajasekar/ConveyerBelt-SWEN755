@@ -40,7 +40,7 @@ public class HeartbeatSender extends Thread {
                 long heartbeatInterval = 2000;
                 Thread.sleep(heartbeatInterval);
                 if (belt.checkStatus()) {
-                    connection.sendHeartbeat(belt.getBeltId());
+                    connection.sendHeartbeat(belt.getBeltId(), 10);
                     log("Heartbeat Sent");
                 } else {
                     log("Belt Heartbeat not detected");

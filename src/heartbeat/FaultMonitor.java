@@ -10,7 +10,7 @@ public class FaultMonitor {
         System.out.printf("%-15s%-30s%-30s%-15s%n", "Conveyor ID", "Last Updated Time", "Current Time", "Status");
     }
 
-    public static void notifyUser(int id, Long lastUpdatedMilliseconds, long currentMillisecond) {
+    public static void notifyUserFailure(int id, Long lastUpdatedMilliseconds, long currentMillisecond) {
         String status = "FAILED";
         displayStatus(id, lastUpdatedMilliseconds, currentMillisecond, status);
     }
@@ -21,7 +21,8 @@ public class FaultMonitor {
     }
 
     private static void displayStatus(int id, Long lastUpdatedMilliseconds, long currentMillisecond, String status) {
-        System.out.printf("%-15d%-30s%-30s%-15s%n", id, convertToTime(lastUpdatedMilliseconds), convertToTime(currentMillisecond), status);
+        System.out.printf("%-15d%-30s%-30s%-15s%n", id, convertToTime(lastUpdatedMilliseconds),
+                convertToTime(currentMillisecond), status);
     }
 
     private static String convertToTime(Long milliseconds) {
@@ -32,7 +33,8 @@ public class FaultMonitor {
     }
 
     public static void main(String[] args) {
-        printHeader();  // Print the table header once
-        // Assuming the notifyUser and notifyUserSuccess methods will be called when the status of a conveyor belt changes
+        printHeader(); // Print the table header once
+        // Assuming the notifyUser and notifyUserSuccess methods will be called when the
+        // status of a conveyor belt changes
     }
 }
