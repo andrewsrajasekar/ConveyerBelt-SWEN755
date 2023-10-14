@@ -122,7 +122,7 @@ public class HeartbeatReceiver {
                 String message;
                 while ((message = reader.readLine()) != null) {
                     String[] parts = message.split(":", 2);
-                    if (parts.length == 2) {
+                    if (parts.length == 3) {
                         int id = Integer.parseInt(parts[0]);
                         long timestamp = Long.parseLong(parts[1]);
                         Integer noOfProducts = Integer.parseInt(parts[2]);
