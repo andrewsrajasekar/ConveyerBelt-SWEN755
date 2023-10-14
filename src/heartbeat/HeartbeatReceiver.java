@@ -2,7 +2,6 @@ package heartbeat;
 
 import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.ServerSocket;
 import java.net.Socket;
@@ -17,10 +16,9 @@ public class HeartbeatReceiver {
     private static final Long senderCheckFreq = senderFreq + 2000L;
     private static ServerSocket serverSocket;
     private static Socket clientSocket;
-    private static InputStream inputStream;
     private static BufferedReader reader;
 
-    public static void main(String[] args){
+    public static void main(String[] args) {
         FaultMonitor.printHeader();
         Timer timer = new Timer();
 
@@ -31,10 +29,10 @@ public class HeartbeatReceiver {
             }
         };
         timer.scheduleAtFixedRate(task, 0, senderCheckFreq);
-        try{
+        try {
             initialize();
             receiveHeartbeat();
-        } catch (IOException exception){
+        } catch (IOException exception) {
             System.out.println(exception);
         } finally {
             closeConnection();
@@ -78,12 +76,10 @@ public class HeartbeatReceiver {
         serverSocket = new ServerSocket(8888);
     }
 
-
-
     private static void receiveHeartbeat() throws IOException {
         while (true) {
             try (Socket clientSocket = serverSocket.accept();
-                 BufferedReader reader = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()))) {
+                    BufferedReader reader = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()))) {
 
                 String message;
                 while ((message = reader.readLine()) != null) {

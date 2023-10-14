@@ -1,13 +1,11 @@
 package heartbeat;
 
 import java.io.IOException;
-import java.util.Random;
 
 public class HeartbeatSender extends Thread {
     private final int id;
     private final ConveyorBelt belt;
     private final HeartbeatConnection connection;
-
 
     public HeartbeatSender(int id, ConveyorBelt belt, HeartbeatConnection connection) {
         this.id = id;
@@ -15,13 +13,12 @@ public class HeartbeatSender extends Thread {
         this.connection = connection;
     }
 
-
     public static void main(String[] args) throws InterruptedException, IOException {
         HeartbeatConnection connection = new HeartbeatConnection();
         ConveyorBelt belt = new ConveyorBelt(1, 10, 2);
         ConveyorBelt belt2 = new ConveyorBelt(2, 10, 2);
-        HeartbeatSender sender = new HeartbeatSender(1,belt,connection);
-        HeartbeatSender sender2 = new HeartbeatSender(2,belt2,connection);
+        HeartbeatSender sender = new HeartbeatSender(1, belt, connection);
+        HeartbeatSender sender2 = new HeartbeatSender(2, belt2, connection);
         belt.start();
         belt2.start();
         sender.start();
@@ -57,8 +54,6 @@ public class HeartbeatSender extends Thread {
             }
         }
     }
-
-
 
     public void log(String message) {
         String output = String.format("[HeartbeatSender: %d][INFO][%s] %s", id, new java.util.Date(), message);
