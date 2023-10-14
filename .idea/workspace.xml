@@ -4,12 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="3419ef6c-cc33-4d53-804d-3f8d08d398c7" name="Changes" comment="change visibility">
-      <change beforePath="$PROJECT_DIR$/.idea/sonarlint/issuestore/index.pb" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/sonarlint/issuestore/index.pb" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ConveyorBelt.iml" beforeDir="false" afterPath="$PROJECT_DIR$/ConveyorBelt.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/heartbeat/ConveyorBelt.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/heartbeat/ConveyorBelt.java" afterDir="false" />
-    </list>
+    <list default="true" id="3419ef6c-cc33-4d53-804d-3f8d08d398c7" name="Changes" comment="change visibility" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -147,7 +142,7 @@
       <workItem from="1695589000384" duration="5210000" />
       <workItem from="1695765645190" duration="4102000" />
       <workItem from="1696548384097" duration="60000" />
-      <workItem from="1697317711168" duration="1377000" />
+      <workItem from="1697317711168" duration="1712000" />
     </task>
     <servers />
   </component>
