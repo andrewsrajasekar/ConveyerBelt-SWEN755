@@ -100,6 +100,8 @@ public class HeartbeatReceiver {
             if ((currentMillisecond - (senderFreq + 1000L)) > lastUpdatedTimeStamp) {
                 FaultMonitor.notifyUserFailure(id, lastUpdatedTimeStamp, currentMillisecond);
                 conveyorBeltData.setIsRunning(Boolean.FALSE);
+                // initiate Backup Converyor Belt - conveyorBeltData.getNoOfProducts,
+                // conveyorBeltData.getLastUpdatedTimeStamp
                 heartbeatMap.put(id, conveyorBeltData);
             }
         }
@@ -121,7 +123,7 @@ public class HeartbeatReceiver {
 
                 String message;
                 while ((message = reader.readLine()) != null) {
-                    String[] parts = message.split(":", 2);
+                    String[] parts = message.split(":", 3);
                     if (parts.length == 3) {
                         int id = Integer.parseInt(parts[0]);
                         long timestamp = Long.parseLong(parts[1]);
