@@ -9,11 +9,24 @@ public class ConveyorBelt extends Thread {
     private final Random random = new Random();
     private boolean status;
 
+    private boolean backup;
+    private int productCount;
+
+    public ConveyorBelt(int id){
+        this(id,10,3,true,false,10);
+    }
+
     public ConveyorBelt(int id, int threshold, int deviation) {
+        this(id, threshold, deviation, true, false, threshold);
+    }
+
+    public ConveyorBelt(int id, int threshold, int deviation, boolean status, boolean backup, int productCount) {
         this.id = id;
         this.threshold = threshold;
         this.deviation = deviation;
-        this.status = true;
+        this.backup = backup;
+        this.status = status;
+        this.productCount = productCount;
     }
 
     public static void main(String[] args) {
@@ -35,6 +48,22 @@ public class ConveyorBelt extends Thread {
 
     private void setStatus(boolean status) {
         this.status = status;
+    }
+
+    public boolean isBackup() {
+        return backup;
+    }
+
+    public void setBackup(boolean backup) {
+        this.backup = backup;
+    }
+
+    public int getProductCount() {
+        return productCount;
+    }
+
+    public void setProductCount(int productCount) {
+        this.productCount = productCount;
     }
 
     @Override
@@ -88,9 +117,13 @@ public class ConveyorBelt extends Thread {
         while (status) {
             boolean normalOperation = random.nextInt(10) < 8;
             if (normalOperation) {
-                log("Received products: " + getProductCount(false));
+                int count = getProductCount(false);
+                setProductCount(count);
+                log("Received products: " + count);
             } else {
-                log("Received products: " + getProductCount(true));
+                int count = getProductCount(true);
+                setProductCount(count);
+                log("Received products: " + count);
                 handleErrors();
                 if (!status) break;
             }
