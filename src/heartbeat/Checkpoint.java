@@ -23,4 +23,12 @@ public class Checkpoint {
         return timestamp;
     }
 
+    @Override
+    public String toString() {
+        return "Checkpoint{" +
+                "beltId=" + beltId +
+                ", productCount=" + productCount +
+                ", timestamp=" + timestamp +
+                '}';
+    }
 }

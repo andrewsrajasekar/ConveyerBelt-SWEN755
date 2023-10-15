@@ -17,8 +17,8 @@ public class StateManager {
         primaryBelts.put(belt.getBeltId(), belt);
     }
 
-    public static void registerBackupBelt(ConveyorBeltBackup belt){
-        backupBelts.put(belt.getBeltId(), belt);
+    public static void registerBackupBelt(int beltId, ConveyorBeltBackup belt){
+        backupBelts.put(beltId, belt);
     }
 
     public static void registerSender(int beltId, HeartbeatSender sender){
@@ -87,7 +87,8 @@ public class StateManager {
                     int productCount = belt.getProductCount();
                     Checkpoint checkpoint = new Checkpoint(beltId, productCount, System.currentTimeMillis());
                     checkpoints.put(beltId, checkpoint);
-                    System.out.println("Checkpoint saved for " + beltId+ "at " + checkpoint.getTimestamp());
+                    System.out.println("Checkpoint saved for " + beltId+ " at " + checkpoint.getTimestamp());
+                    System.out.println(checkpoint);
                 }
             }
         }, 0, 500);

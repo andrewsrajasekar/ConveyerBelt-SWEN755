@@ -4,24 +4,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="3419ef6c-cc33-4d53-804d-3f8d08d398c7" name="Changes" comment="change visibility">
-      <change afterPath="$PROJECT_DIR$/src/heartbeat/Checkpoint.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/heartbeat/ConveyorBeltBackup.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/heartbeat/ConveyorBeltFactory.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/heartbeat/StateManager.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/sonarlint/issuestore/index.pb" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/sonarlint/issuestore/index.pb" afterDir="false" />
+    <list default="true" id="3419ef6c-cc33-4d53-804d-3f8d08d398c7" name="Changes" comment="wip">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ConveyorBelt/heartbeat/ConveyorBelt.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/ConveyorBelt/heartbeat/ConveyorBelt.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ConveyorBelt/heartbeat/FaultMonitor.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/ConveyorBelt/heartbeat/FaultMonitor.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ConveyorBelt/heartbeat/HeartbeatConnection.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/ConveyorBelt/heartbeat/HeartbeatConnection.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ConveyorBelt/heartbeat/HeartbeatReceiver$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/ConveyorBelt/heartbeat/HeartbeatReceiver$1.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ConveyorBelt/heartbeat/HeartbeatReceiver.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/ConveyorBelt/heartbeat/HeartbeatReceiver.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ConveyorBelt/heartbeat/HeartbeatSender.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/ConveyorBelt/heartbeat/HeartbeatSender.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/heartbeat/ConveyorBelt.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/heartbeat/ConveyorBelt.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/heartbeat/FaultMonitor.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/heartbeat/FaultMonitor.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/heartbeat/HeartbeatConnection.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/heartbeat/HeartbeatConnection.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/heartbeat/HeartbeatReceiver.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/heartbeat/HeartbeatReceiver.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/heartbeat/HeartbeatSender.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/heartbeat/HeartbeatSender.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/heartbeat/Checkpoint.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/heartbeat/Checkpoint.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/heartbeat/ConveyorBeltFactory.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/heartbeat/ConveyorBeltFactory.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/heartbeat/StateManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/heartbeat/StateManager.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -36,6 +23,11 @@
     </option>
   </component>
   <component name="Git.Settings">
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$" value="main" />
+      </map>
+    </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="MarkdownSettingsMigration">
@@ -46,21 +38,22 @@
   <component name="ProjectViewState">
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
-    &quot;full.screen.before.presentation.mode&quot;: &quot;false&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;project.structure.last.edited&quot;: &quot;Libraries&quot;,
-    &quot;project.structure.proportion&quot;: &quot;0.0&quot;,
-    &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.pluginManager&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "SONARLINT_PRECOMMIT_ANALYSIS": "true",
+    "WebServerToolWindowFactoryState": "false",
+    "full.screen.before.presentation.mode": "false",
+    "node.js.detected.package.eslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "project.structure.last.edited": "Libraries",
+    "project.structure.proportion": "0.0",
+    "project.structure.side.proportion": "0.2",
+    "settings.editor.selected.configurable": "preferences.pluginManager"
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="CreateTestDialog.Recents.Supers">
       <recent name="" />
@@ -72,35 +65,9 @@
       <recent name="heartbeat" />
     </key>
   </component>
-  <component name="RunManager" selected="Application.HeartbeatReceiver">
-    <configuration name="ConveyorBelt" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="heartbeat.ConveyorBelt" />
-      <module name="ConveyorBelt" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="heartbeat.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
+  <component name="RunManager" selected="Application.StateManager">
     <configuration name="ConveyorBeltBackup" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="heartbeat.ConveyorBeltBackup" />
-      <module name="ConveyorBelt" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="heartbeat.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="Dum" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="heartbeat.Dum" />
       <module name="ConveyorBelt" />
       <extension name="coverage">
         <pattern>
@@ -138,13 +105,39 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <configuration name="StateManager (1)" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="heartbeat.StateManager" />
+      <module name="ConveyorBelt" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="heartbeat.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="StateManager" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="heartbeat.StateManager" />
+      <module name="ConveyorBelt" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="heartbeat.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Application.StateManager" />
         <item itemvalue="Application.HeartbeatReceiver" />
+        <item itemvalue="Application.StateManager (1)" />
         <item itemvalue="Application.HeartbeatSender" />
         <item itemvalue="Application.ConveyorBeltBackup" />
-        <item itemvalue="Application.ConveyorBelt" />
-        <item itemvalue="Application.Dum" />
       </list>
     </recent_temporary>
   </component>
@@ -162,8 +155,16 @@
       <workItem from="1696548384097" duration="60000" />
       <workItem from="1697317711168" duration="2887000" />
       <workItem from="1697394342197" duration="987000" />
-      <workItem from="1697395494493" duration="9514000" />
+      <workItem from="1697395494493" duration="10295000" />
     </task>
+    <task id="LOCAL-00001" summary="wip">
+      <created>1697410657547</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1697410657547</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -182,6 +183,7 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="change visibility" />
-    <option name="LAST_COMMIT_MESSAGE" value="change visibility" />
+    <MESSAGE value="wip" />
+    <option name="LAST_COMMIT_MESSAGE" value="wip" />
   </component>
 </project>

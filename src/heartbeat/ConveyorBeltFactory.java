@@ -18,7 +18,7 @@ public class ConveyorBeltFactory {
         ConveyorBeltBackup backup = new ConveyorBeltBackup(id);
         HeartbeatSender sender = new HeartbeatSender(id, belt, connection);
         StateManager.registerBelt(belt);
-        StateManager.registerBackupBelt(backup);
+        StateManager.registerBackupBelt(id,backup);
         StateManager.registerSender(id, sender);
         return belt;
     }
