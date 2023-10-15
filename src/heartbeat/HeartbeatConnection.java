@@ -14,13 +14,13 @@ public class HeartbeatConnection {
         this.writer = new PrintWriter(socket.getOutputStream(), true);
     }
 
-    public void sendHeartbeat(int id, Integer noOfProducts) {
+    public void sendHeartbeat(int id) {
         synchronized (lock) {
             if (socket.isClosed()) {
                 throw new IllegalStateException("Connection is closed");
             }
             long timestamp = System.currentTimeMillis();
-            String heartbeatMessage = String.format("%d:%d:%d", id, timestamp, noOfProducts);
+            String heartbeatMessage = String.format("%d:%d", id, timestamp);
             writer.println(heartbeatMessage);
         }
     }

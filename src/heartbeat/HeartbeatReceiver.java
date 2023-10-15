@@ -11,38 +11,7 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 public class HeartbeatReceiver {
-
-    public class ConveyorBeltData {
-        private Integer noOfProducts;
-        private Long lastUpdatedTimeStamp;
-        private Boolean isRunning;
-
-        public Integer getNoOfProducts() {
-            return noOfProducts;
-        }
-
-        public void setNoOfProducts(Integer noOfProducts) {
-            this.noOfProducts = noOfProducts;
-        }
-
-        public Long getLastUpdatedTimeStamp() {
-            return lastUpdatedTimeStamp;
-        }
-
-        public void setLastUpdatedTimeStamp(Long lastUpdatedTimeStamp) {
-            this.lastUpdatedTimeStamp = lastUpdatedTimeStamp;
-        }
-
-        public Boolean getIsRunning() {
-            return isRunning;
-        }
-
-        public void setIsRunning(Boolean isRunning) {
-            this.isRunning = isRunning;
-        }
-    }
-
-    private static final HashMap<Integer, ConveyorBeltData> heartbeatMap = new HashMap<>();
+    private static final HashMap<Integer, Long> heartbeatMap = new HashMap<>();
     private static final Long senderFreq = 2000L;
     private static final Long senderCheckFreq = senderFreq + 2000L;
     private static ServerSocket serverSocket;
@@ -71,36 +40,29 @@ public class HeartbeatReceiver {
 
     }
 
-    public static boolean pitAPat(int id, Long updatedMilliseconds, Integer noOfProducts) {
-        updateTime(id, updatedMilliseconds, noOfProducts);
+    public static boolean pitAPat(int id, Long updatedMilliseconds) {
+        updateTime(id, updatedMilliseconds);
         return true;
     }
 
-    private static void updateTime(int id, Long updatedMilliseconds, Integer noOfProducts) {
+    private static void updateTime(int id, Long updatedMilliseconds) {
         Long currentMillisecond = System.currentTimeMillis();
-        ConveyorBeltData conveyorBeltData = new HeartbeatReceiver().new ConveyorBeltData();
-        conveyorBeltData.setLastUpdatedTimeStamp(updatedMilliseconds);
-        conveyorBeltData.setNoOfProducts(noOfProducts);
-        conveyorBeltData.setIsRunning(Boolean.TRUE);
-        heartbeatMap.put(id, conveyorBeltData);
+        heartbeatMap.put(id, updatedMilliseconds);
         FaultMonitor.notifyUserSuccess(id, updatedMilliseconds, currentMillisecond);
     }
 
     private static boolean checkAlive() {
         Long currentMillisecond = System.currentTimeMillis();
-        Iterator<Integer> sendIndexVsLastUpdatedTimeStampIter = heartbeatMap.keySet().iterator();
-        while (sendIndexVsLastUpdatedTimeStampIter.hasNext()) {
-            Integer id = sendIndexVsLastUpdatedTimeStampIter.next();
-            ConveyorBeltData conveyorBeltData = heartbeatMap.get(id);
-            Long lastUpdatedTimeStamp = conveyorBeltData.getLastUpdatedTimeStamp();
-            Boolean isRunning = conveyorBeltData.getIsRunning();
-            if (!isRunning) {
+        Iterator<Integer> lastUpdatedIds = heartbeatMap.keySet().iterator();
+        while (lastUpdatedIds.hasNext()) {
+            Integer id = lastUpdatedIds.next();
+            Long lastUpdatedTimeStamp = heartbeatMap.get(id);
+            if (lastUpdatedTimeStamp == -1) {
                 continue;
             }
             if ((currentMillisecond - (senderFreq + 1000L)) > lastUpdatedTimeStamp) {
                 FaultMonitor.notifyUserFailure(id, lastUpdatedTimeStamp, currentMillisecond);
-                conveyorBeltData.setIsRunning(Boolean.FALSE);
-                heartbeatMap.put(id, conveyorBeltData);
+                heartbeatMap.put(id, -1L);
             }
         }
         return true;
@@ -117,7 +79,7 @@ public class HeartbeatReceiver {
     private static void receiveHeartbeat() throws IOException {
         while (true) {
             try (Socket clientSocket = serverSocket.accept();
-                    BufferedReader reader = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()))) {
+                 BufferedReader reader = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()))) {
 
                 String message;
                 while ((message = reader.readLine()) != null) {
@@ -125,8 +87,7 @@ public class HeartbeatReceiver {
                     if (parts.length == 2) {
                         int id = Integer.parseInt(parts[0]);
                         long timestamp = Long.parseLong(parts[1]);
-                        Integer noOfProducts = Integer.parseInt(parts[2]);
-                        pitAPat(id, timestamp, noOfProducts);
+                        pitAPat(id, timestamp);
                     }
                 }
             } catch (IOException e) {

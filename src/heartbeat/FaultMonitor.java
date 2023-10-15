@@ -13,6 +13,7 @@ public class FaultMonitor {
     public static void notifyUserFailure(int id, Long lastUpdatedMilliseconds, long currentMillisecond) {
         String status = "FAILED";
         displayStatus(id, lastUpdatedMilliseconds, currentMillisecond, status);
+        StateManager.activateBackup(id);
     }
 
     public static void notifyUserSuccess(int id, Long lastUpdatedMilliseconds, long currentMillisecond) {

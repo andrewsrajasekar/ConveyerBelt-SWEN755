@@ -9,22 +9,20 @@ public class ConveyorBelt extends Thread {
     private final Random random = new Random();
     private boolean status;
 
-    private boolean backup;
     private int productCount;
 
     public ConveyorBelt(int id){
-        this(id,10,3,true,false,10);
+        this(id,10,3,true,10);
     }
 
     public ConveyorBelt(int id, int threshold, int deviation) {
-        this(id, threshold, deviation, true, false, threshold);
+        this(id, threshold, deviation, true, threshold);
     }
 
-    public ConveyorBelt(int id, int threshold, int deviation, boolean status, boolean backup, int productCount) {
+    public ConveyorBelt(int id, int threshold, int deviation, boolean status, int productCount) {
         this.id = id;
         this.threshold = threshold;
         this.deviation = deviation;
-        this.backup = backup;
         this.status = status;
         this.productCount = productCount;
     }
@@ -46,16 +44,8 @@ public class ConveyorBelt extends Thread {
         return status;
     }
 
-    private void setStatus(boolean status) {
+    void setStatus(boolean status) {
         this.status = status;
-    }
-
-    public boolean isBackup() {
-        return backup;
-    }
-
-    public void setBackup(boolean backup) {
-        this.backup = backup;
     }
 
     public int getProductCount() {
@@ -68,20 +58,22 @@ public class ConveyorBelt extends Thread {
 
     @Override
     public String toString() {
-        return "ConveyorBelt:" + id + "("+threshold+")";
+        return "ConveyorBelt(main):" + id + "("+threshold+")";
     }
 
-    private int getProductCount(boolean error) {
-        int multiplier = error ? 2 : 1;
+    private void loadProducts() {
+        boolean normalOperation = random.nextInt(10) < 8;
+        int multiplier = normalOperation ? 1 : 2;
         int max = threshold + deviation * multiplier;
         int min = threshold - deviation * multiplier;
         int count = random.nextInt(max - min) + min;
+        log("Received products: " + count);
+        setProductCount(count);
         try {
             Thread.sleep(1000);
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
         }
-        return count;
     }
 
     private void handleErrors() {
@@ -115,15 +107,8 @@ public class ConveyorBelt extends Thread {
     public void run() {
         log("STARTING OPERATION");
         while (status) {
-            boolean normalOperation = random.nextInt(10) < 8;
-            if (normalOperation) {
-                int count = getProductCount(false);
-                setProductCount(count);
-                log("Received products: " + count);
-            } else {
-                int count = getProductCount(true);
-                setProductCount(count);
-                log("Received products: " + count);
+            loadProducts();
+            if(productCount > threshold) {
                 handleErrors();
                 if (!status) break;
             }
