@@ -68,10 +68,6 @@ public class HeartbeatReceiver {
         return true;
     }
 
-    public static void initialize(int port) throws IOException {
-        serverSocket = new ServerSocket(port);
-    }
-
     public static void initialize() throws IOException {
         serverSocket = new ServerSocket(8888);
     }
@@ -79,7 +75,7 @@ public class HeartbeatReceiver {
     private static void receiveHeartbeat() throws IOException {
         while (true) {
             try (Socket clientSocket = serverSocket.accept();
-                 BufferedReader reader = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()))) {
+                    BufferedReader reader = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()))) {
 
                 String message;
                 while ((message = reader.readLine()) != null) {

@@ -1,4 +1,4 @@
-package heartbeat;
+package ConveyorBelt;
 
 public class Checkpoint {
     private int beltId;

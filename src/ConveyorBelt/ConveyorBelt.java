@@ -1,4 +1,4 @@
-package heartbeat;
+package ConveyorBelt;
 
 import java.util.Random;
 
@@ -11,8 +11,8 @@ public class ConveyorBelt extends Thread {
 
     private int productCount;
 
-    public ConveyorBelt(int id){
-        this(id,10,3,true,10);
+    public ConveyorBelt(int id) {
+        this(id, 10, 3, true, 10);
     }
 
     public ConveyorBelt(int id, int threshold, int deviation) {
@@ -58,7 +58,7 @@ public class ConveyorBelt extends Thread {
 
     @Override
     public String toString() {
-        return "ConveyorBelt(main):" + id + "("+threshold+")";
+        return "ConveyorBelt(main):" + id + "(" + threshold + ")";
     }
 
     private void loadProducts() {
@@ -108,9 +108,10 @@ public class ConveyorBelt extends Thread {
         log("STARTING OPERATION");
         while (status) {
             loadProducts();
-            if(productCount > threshold) {
+            if (productCount > threshold) {
                 handleErrors();
-                if (!status) break;
+                if (!status)
+                    break;
             }
         }
     }

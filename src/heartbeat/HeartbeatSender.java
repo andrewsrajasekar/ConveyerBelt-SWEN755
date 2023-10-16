@@ -4,6 +4,8 @@ import java.io.IOException;
 import java.util.HashSet;
 import java.util.Set;
 
+import ConveyorBelt.ConveyorBelt;
+
 public class HeartbeatSender extends Thread {
     private final int id;
     private ConveyorBelt belt;
@@ -25,7 +27,7 @@ public class HeartbeatSender extends Thread {
 
     public static void main(String[] args) throws InterruptedException, IOException {
         int NUM_BELTS = 2;
-        HeartbeatConnection connection = new HeartbeatConnection();
+        HeartbeatConnection connection = new HeartbeatConnection(Boolean.FALSE);
         Set<ConveyorBelt> belts = new HashSet<>();
         Set<HeartbeatSender> senders = new HashSet<>();
         for (int i = 0; i < NUM_BELTS; i++) {
@@ -34,12 +36,12 @@ public class HeartbeatSender extends Thread {
             HeartbeatSender sender = new HeartbeatSender(i, belt, connection);
             senders.add(sender);
         }
-        for (HeartbeatSender sender:senders) {
+        for (HeartbeatSender sender : senders) {
             sender.getBelt().start();
             sender.start();
         }
 
-        for (HeartbeatSender sender:senders) {
+        for (HeartbeatSender sender : senders) {
             sender.getBelt().join();
             sender.join();
         }
@@ -59,8 +61,8 @@ public class HeartbeatSender extends Thread {
                     log("Heartbeat Sent");
                 } else {
                     log("Belt Heartbeat not detected");
-//                    Thread.currentThread().interrupt();
-//                    break;
+                    // Thread.currentThread().interrupt();
+                    // break;
                 }
             } catch (InterruptedException e) {
                 // Log the exception and/or re-interrupt the thread
