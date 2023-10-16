@@ -1,11 +1,11 @@
 package heartbeat;
 
-import java.io.IOException;
+import ConveyorBelt.ConveyorBelt;
 
 public class HeartbeatSender extends Thread {
     private final int id;
-    private final ConveyorBelt belt;
     private final HeartbeatConnection connection;
+    private ConveyorBelt belt;
 
     public HeartbeatSender(int id, ConveyorBelt belt, HeartbeatConnection connection) {
         this.id = id;
@@ -13,23 +13,12 @@ public class HeartbeatSender extends Thread {
         this.connection = connection;
     }
 
-    public static void main(String[] args) throws InterruptedException, IOException {
-        HeartbeatConnection connection = new HeartbeatConnection();
-        ConveyorBelt belt = new ConveyorBelt(1, 10, 2);
-        ConveyorBelt belt2 = new ConveyorBelt(2, 10, 2);
-        HeartbeatSender sender = new HeartbeatSender(1, belt, connection);
-        HeartbeatSender sender2 = new HeartbeatSender(2, belt2, connection);
-        belt.start();
-        belt2.start();
-        sender.start();
-        sender2.start();
+    public ConveyorBelt getBelt() {
+        return belt;
+    }
 
-        belt.join();
-        belt2.join();
-        sender.join();
-        sender2.join();
-        connection.close();
-
+    public void setBelt(ConveyorBelt belt) {
+        this.belt = belt;
     }
 
     @Override
@@ -40,12 +29,12 @@ public class HeartbeatSender extends Thread {
                 long heartbeatInterval = 2000;
                 Thread.sleep(heartbeatInterval);
                 if (belt.checkStatus()) {
-                    connection.sendHeartbeat(belt.getBeltId(), belt.getProductCount());
+                    connection.sendHeartbeat(belt.getBeltId());
                     log("Heartbeat Sent");
                 } else {
                     log("Belt Heartbeat not detected");
-                    Thread.currentThread().interrupt();
-                    break;
+                    // Thread.currentThread().interrupt();
+                    // break;
                 }
             } catch (InterruptedException e) {
                 // Log the exception and/or re-interrupt the thread
@@ -55,9 +44,25 @@ public class HeartbeatSender extends Thread {
         }
     }
 
+
     public void log(String message) {
-        String output = String.format("[HeartbeatSender: %d][INFO][%s] %s", id, new java.util.Date(), message);
-        System.out.println(output);
+        // Set fixed widths for the columns
+        final int timestamp = 30;
+        final int levelWidth = 10;
+        final int sourceWidth = 40;
+        final int messageWidth = 50;
+
+        // Format log components
+        String formattedTimestamp = String.format("%-" + timestamp + "s", new java.util.Date());
+        String formattedLevel = String.format("%-" + levelWidth + "s", "INFO");
+        String formattedSource = String.format("%-" + sourceWidth + "s", "HeartbeatSender[id: " + id + "]");
+        String formattedMessage = String.format("%-" + messageWidth + "s", message);
+
+        // Assemble the final log message
+        String formattedLog = String.format("%s %s  %s  %s ", formattedTimestamp, formattedLevel, formattedSource, formattedMessage);
+
+        System.out.println(formattedLog);
     }
+
 
 }

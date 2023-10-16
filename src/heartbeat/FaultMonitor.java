@@ -6,6 +6,8 @@ import java.text.SimpleDateFormat;
 import java.util.TimeZone;
 
 public class FaultMonitor {
+    private static HeartbeatConnection backUpConnection;
+
     public static void printHeader() {
         System.out.printf("%-15s%-30s%-30s%-15s%n", "Conveyor ID", "Last Updated Time", "Current Time", "Status");
     }
@@ -13,6 +15,14 @@ public class FaultMonitor {
     public static void notifyUserFailure(int id, Long lastUpdatedMilliseconds, long currentMillisecond) {
         String status = "FAILED";
         displayStatus(id, lastUpdatedMilliseconds, currentMillisecond, status);
+        if (backUpConnection == null) {
+            try {
+                backUpConnection = new HeartbeatConnection(Boolean.TRUE);
+            } catch (Exception ex) {
+                System.out.println("Exception ::: " + ex);
+            }
+        }
+        backUpConnection.triggerBackup(id);
     }
 
     public static void notifyUserSuccess(int id, Long lastUpdatedMilliseconds, long currentMillisecond) {

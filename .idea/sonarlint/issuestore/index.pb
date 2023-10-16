@@ -12,5 +12,3 @@ O
 src/heartbeat/ConveyorBelt.java,d\9\d9651378f20c0c0de904a176a4e6287d6427ccee
 T
 $src/heartbeat/HeartbeatReceiver.java,8\c\8c1021f2e335942629b44859363b6572a8c1b211
-I
-src/heartbeat/Course.java,6\b\6b652b858d8476999d348bcfe1d77848737383e6

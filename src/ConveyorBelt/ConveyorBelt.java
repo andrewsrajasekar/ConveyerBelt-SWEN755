@@ -1,4 +1,4 @@
-package heartbeat;
+package ConveyorBelt;
 
 import java.util.Random;
 
@@ -9,22 +9,20 @@ public class ConveyorBelt extends Thread {
     private final Random random = new Random();
     private boolean status;
 
-    private boolean backup;
     private int productCount;
 
-    public ConveyorBelt(int id){
-        this(id,10,3,true,false,10);
+    public ConveyorBelt(int id) {
+        this(id, 10, 3, true, 10);
     }
 
     public ConveyorBelt(int id, int threshold, int deviation) {
-        this(id, threshold, deviation, true, false, threshold);
+        this(id, threshold, deviation, true, threshold);
     }
 
-    public ConveyorBelt(int id, int threshold, int deviation, boolean status, boolean backup, int productCount) {
+    public ConveyorBelt(int id, int threshold, int deviation, boolean status, int productCount) {
         this.id = id;
         this.threshold = threshold;
         this.deviation = deviation;
-        this.backup = backup;
         this.status = status;
         this.productCount = productCount;
     }
@@ -46,16 +44,8 @@ public class ConveyorBelt extends Thread {
         return status;
     }
 
-    private void setStatus(boolean status) {
+    void setStatus(boolean status) {
         this.status = status;
-    }
-
-    public boolean isBackup() {
-        return backup;
-    }
-
-    public void setBackup(boolean backup) {
-        this.backup = backup;
     }
 
     public int getProductCount() {
@@ -68,20 +58,22 @@ public class ConveyorBelt extends Thread {
 
     @Override
     public String toString() {
-        return "ConveyorBelt:" + id + "("+threshold+")";
+        return "ConveyorBelt[primary], id:" + id + "(" + threshold + ")";
     }
 
-    private int getProductCount(boolean error) {
-        int multiplier = error ? 2 : 1;
+    private void loadProducts() {
+        boolean normalOperation = random.nextInt(10) < 8;
+        int multiplier = normalOperation ? 1 : 2;
         int max = threshold + deviation * multiplier;
         int min = threshold - deviation * multiplier;
         int count = random.nextInt(max - min) + min;
+        log("Received products: " + count);
+        setProductCount(count);
         try {
             Thread.sleep(1000);
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
         }
-        return count;
     }
 
     private void handleErrors() {
@@ -102,12 +94,27 @@ public class ConveyorBelt extends Thread {
         return random.nextInt(100) < 80;
     }
 
-    private void log(String level, String message) {
-        String s = String.format("[%s][%s] %s", this, level, message);
-        System.out.println(s);
+    public void log(String level, String message) {
+        // Set fixed widths for the columns
+        final int timestamp = 30;
+        final int levelWidth = 10;
+        final int sourceWidth = 40;
+        final int messageWidth = 50;
+
+        // Format log components
+        String formattedTimestamp = String.format("%-" + timestamp + "s", new java.util.Date());
+        String formattedLevel = String.format("%-" + levelWidth + "s", level);
+        String formattedSource = String.format("%-" + sourceWidth + "s", this);
+        String formattedMessage = String.format("%-" + messageWidth + "s", message);
+
+        // Assemble the final log message
+        String formattedLog = String.format("%s %s  %s  %s ",
+                formattedTimestamp, formattedLevel, formattedSource, formattedMessage);
+
+        System.out.println(formattedLog);
     }
 
-    private void log(String message) {
+    public void log(String message) {
         log("INFO", message);
     }
 
@@ -115,17 +122,11 @@ public class ConveyorBelt extends Thread {
     public void run() {
         log("STARTING OPERATION");
         while (status) {
-            boolean normalOperation = random.nextInt(10) < 8;
-            if (normalOperation) {
-                int count = getProductCount(false);
-                setProductCount(count);
-                log("Received products: " + count);
-            } else {
-                int count = getProductCount(true);
-                setProductCount(count);
-                log("Received products: " + count);
+            loadProducts();
+            if (productCount > threshold) {
                 handleErrors();
-                if (!status) break;
+                if (!status)
+                    break;
             }
         }
     }
