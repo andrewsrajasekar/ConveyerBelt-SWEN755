@@ -58,7 +58,7 @@ public class ConveyorBelt extends Thread {
 
     @Override
     public String toString() {
-        return "ConveyorBelt(main):" + id + "(" + threshold + ")";
+        return "ConveyorBelt[primary], id:" + id + "(" + threshold + ")";
     }
 
     private void loadProducts() {
@@ -94,12 +94,27 @@ public class ConveyorBelt extends Thread {
         return random.nextInt(100) < 80;
     }
 
-    private void log(String level, String message) {
-        String s = String.format("[%s][%s] %s", this, level, message);
-        System.out.println(s);
+    public void log(String level, String message) {
+        // Set fixed widths for the columns
+        final int timestamp = 30;
+        final int levelWidth = 10;
+        final int sourceWidth = 40;
+        final int messageWidth = 50;
+
+        // Format log components
+        String formattedTimestamp = String.format("%-" + timestamp + "s", new java.util.Date());
+        String formattedLevel = String.format("%-" + levelWidth + "s", level);
+        String formattedSource = String.format("%-" + sourceWidth + "s", this);
+        String formattedMessage = String.format("%-" + messageWidth + "s", message);
+
+        // Assemble the final log message
+        String formattedLog = String.format("%s %s  %s  %s ",
+                formattedTimestamp, formattedLevel, formattedSource, formattedMessage);
+
+        System.out.println(formattedLog);
     }
 
-    private void log(String message) {
+    public void log(String message) {
         log("INFO", message);
     }
 

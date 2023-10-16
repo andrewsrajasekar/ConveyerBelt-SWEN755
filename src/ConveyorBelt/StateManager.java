@@ -64,7 +64,8 @@ public class StateManager {
     public static void activateBackup(int beltId) {
         ConveyorBeltBackup backupBelt = backupBelts.get(beltId);
         if (backupBelt != null) {
-            System.out.println("Activating backup belt for " + beltId);
+            backupBelt.log("Activating backup belt");
+            backupBelt.log("Loading data from last checkpoint: "+ checkpoints.get(beltId));
             int productCount = getProductCountFromCheckpoint(beltId);
             backupBelt.activate(productCount);
 
@@ -74,7 +75,8 @@ public class StateManager {
             HeartbeatSender sender = senders.get(beltId);
             sender.setBelt(backupBelt);
         } else {
-            System.out.println("No backup belt found for " + beltId);
+            ConveyorBelt primaryBelt = primaryBelts.get(beltId);
+            primaryBelt.log("No backup belt found");
         }
     }
 
@@ -88,15 +90,17 @@ public class StateManager {
             @Override
             public void run() {
                 for (ConveyorBelt belt : primaryBelts.values()) {
+                    if(!belt.checkStatus()){
+                        continue;
+                    }
                     int beltId = belt.getBeltId();
                     int productCount = belt.getProductCount();
                     Checkpoint checkpoint = new Checkpoint(beltId, productCount, System.currentTimeMillis());
                     checkpoints.put(beltId, checkpoint);
-                    System.out.println("Checkpoint saved for " + beltId + " at " + checkpoint.getTimestamp());
-                    System.out.println(checkpoint);
+                    belt.log("Checkpoint saved: " + checkpoint);
                 }
             }
-        }, 0, 500);
+        }, 0, 3000);
     }
 
     public static void initialize() throws IOException {
@@ -122,7 +126,12 @@ public class StateManager {
         }
     }
 
+    public static void printHeader() {
+        System.out.printf("%-30s%-10s%-50s%-60s%n", "Timestamp", "Log Level", "Source", "Message");
+    }
+
     public static void main(String[] args) throws IOException, InterruptedException {
+        printHeader();
         initialize();
         Thread receiveSignalThread = new Thread(() -> {
             try {

@@ -1,15 +1,11 @@
 package heartbeat;
 
-import java.io.IOException;
-import java.util.HashSet;
-import java.util.Set;
-
 import ConveyorBelt.ConveyorBelt;
 
 public class HeartbeatSender extends Thread {
     private final int id;
-    private ConveyorBelt belt;
     private final HeartbeatConnection connection;
+    private ConveyorBelt belt;
 
     public HeartbeatSender(int id, ConveyorBelt belt, HeartbeatConnection connection) {
         this.id = id;
@@ -23,30 +19,6 @@ public class HeartbeatSender extends Thread {
 
     public void setBelt(ConveyorBelt belt) {
         this.belt = belt;
-    }
-
-    public static void main(String[] args) throws InterruptedException, IOException {
-        int NUM_BELTS = 2;
-        HeartbeatConnection connection = new HeartbeatConnection(Boolean.FALSE);
-        Set<ConveyorBelt> belts = new HashSet<>();
-        Set<HeartbeatSender> senders = new HashSet<>();
-        for (int i = 0; i < NUM_BELTS; i++) {
-            ConveyorBelt belt = new ConveyorBelt(i);
-            belts.add(belt);
-            HeartbeatSender sender = new HeartbeatSender(i, belt, connection);
-            senders.add(sender);
-        }
-        for (HeartbeatSender sender : senders) {
-            sender.getBelt().start();
-            sender.start();
-        }
-
-        for (HeartbeatSender sender : senders) {
-            sender.getBelt().join();
-            sender.join();
-        }
-        connection.close();
-
     }
 
     @Override
@@ -72,9 +44,25 @@ public class HeartbeatSender extends Thread {
         }
     }
 
+
     public void log(String message) {
-        String output = String.format("[HeartbeatSender: %d][INFO][%s] %s", id, new java.util.Date(), message);
-        System.out.println(output);
+        // Set fixed widths for the columns
+        final int timestamp = 30;
+        final int levelWidth = 10;
+        final int sourceWidth = 40;
+        final int messageWidth = 50;
+
+        // Format log components
+        String formattedTimestamp = String.format("%-" + timestamp + "s", new java.util.Date());
+        String formattedLevel = String.format("%-" + levelWidth + "s", "INFO");
+        String formattedSource = String.format("%-" + sourceWidth + "s", "HeartbeatSender[id: " + id + "]");
+        String formattedMessage = String.format("%-" + messageWidth + "s", message);
+
+        // Assemble the final log message
+        String formattedLog = String.format("%s %s  %s  %s ", formattedTimestamp, formattedLevel, formattedSource, formattedMessage);
+
+        System.out.println(formattedLog);
     }
+
 
 }
