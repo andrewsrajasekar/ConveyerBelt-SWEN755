@@ -79,8 +79,8 @@ public class HeartbeatReceiver {
 
                 String message;
                 while ((message = reader.readLine()) != null) {
-                    String[] parts = message.split(":", 3);
-                    if (parts.length == 3) {
+                    String[] parts = message.split(":", 2);
+                    if (parts.length == 2) {
                         int id = Integer.parseInt(parts[0]);
                         long timestamp = Long.parseLong(parts[1]);
                         pitAPat(id, timestamp);

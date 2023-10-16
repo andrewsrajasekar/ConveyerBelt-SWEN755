@@ -4,18 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="3419ef6c-cc33-4d53-804d-3f8d08d398c7" name="Changes" comment="add logs">
+    <list default="true" id="3419ef6c-cc33-4d53-804d-3f8d08d398c7" name="Changes" comment="change visibility">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ConveyorBelt/heartbeat/ConveyorBelt.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ConveyorBelt/heartbeat/FaultMonitor.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/ConveyorBelt/heartbeat/FaultMonitor.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ConveyorBelt/heartbeat/HeartbeatConnection.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/ConveyorBelt/heartbeat/HeartbeatConnection.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/ConveyorBelt/heartbeat/HeartbeatReceiver.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/ConveyorBelt/heartbeat/HeartbeatReceiver.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ConveyorBelt/heartbeat/HeartbeatSender.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/ConveyorBelt/heartbeat/HeartbeatSender.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/ConveyorBelt/ConveyorBelt.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/ConveyorBelt/ConveyorBelt.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/ConveyorBelt/ConveyorBeltBackup.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/ConveyorBelt/ConveyorBeltBackup.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/ConveyorBelt/StateManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/ConveyorBelt/StateManager.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/heartbeat/HeartbeatSender.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/heartbeat/HeartbeatSender.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/heartbeat/HeartbeatReceiver.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/heartbeat/HeartbeatReceiver.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -32,7 +24,7 @@
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="main" />
+        <entry key="$PROJECT_DIR$" value="assignment_2" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -45,22 +37,22 @@
   <component name="ProjectViewState">
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "SONARLINT_PRECOMMIT_ANALYSIS": "true",
-    "WebServerToolWindowFactoryState": "false",
-    "full.screen.before.presentation.mode": "false",
-    "node.js.detected.package.eslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "project.structure.last.edited": "Libraries",
-    "project.structure.proportion": "0.0",
-    "project.structure.side.proportion": "0.2",
-    "settings.editor.selected.configurable": "preferences.pluginManager"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;SONARLINT_PRECOMMIT_ANALYSIS&quot;: &quot;true&quot;,
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;full.screen.before.presentation.mode&quot;: &quot;false&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;Libraries&quot;,
+    &quot;project.structure.proportion&quot;: &quot;0.0&quot;,
+    &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.pluginManager&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CreateTestDialog.Recents.Supers">
       <recent name="" />
@@ -72,7 +64,7 @@
       <recent name="heartbeat" />
     </key>
   </component>
-  <component name="RunManager" selected="Application.StateManager (1)">
+  <component name="RunManager" selected="Application.ConveyorBelt.StateManager">
     <configuration name="ConveyorBelt" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="ConveyorBelt.ConveyorBelt" />
       <module name="ConveyorBelt" />
@@ -140,9 +132,9 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Application.StateManager (1)" />
-        <item itemvalue="Application.HeartbeatReceiver" />
         <item itemvalue="Application.ConveyorBelt.StateManager" />
+        <item itemvalue="Application.HeartbeatReceiver" />
+        <item itemvalue="Application.StateManager (1)" />
         <item itemvalue="Application.StateManager" />
         <item itemvalue="Application.ConveyorBelt" />
       </list>
